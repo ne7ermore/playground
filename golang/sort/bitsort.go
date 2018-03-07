@@ -1,7 +1,7 @@
 package sort
 
 func bitsort(list []uint, max uint) []uint {
-	var SHIFT, MASK uint = 32, 0x1f
+	var SHIFT, MASK uint = 5, 0x1f
 	var BITSPERWORD int = 32
 	top := int(len(list)/BITSPERWORD) + 1
 
@@ -21,6 +21,5 @@ func bitsort(list []uint, max uint) []uint {
 			slot++
 		}
 	}
-
 	return list
 }
