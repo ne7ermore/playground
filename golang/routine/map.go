@@ -1,6 +1,6 @@
-package main
+package routine
 
-func main() {
+func check_map() {
 	m := map[string]map[string]string{
 		"a1": {
 			"b2": "1",
