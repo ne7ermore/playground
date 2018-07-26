@@ -13,17 +13,17 @@ class BloomFilter(object):
         self.bit_size = bit_size
 
     def add(self, url):
-        for b in self.get_postions(url):
+        for b in self.get_slots(url):
             self.bit_array[b] = 1
 
     def contains(self, url):
-        slots = self.get_postions(url)
+        slots = self.get_slots(url)
         return all([self.bit_array[b] for b in slots])
 
     def hash(self, args):
         return mmh3.hash(args[0], args[1]) % self.bit_size
 
-    def get_postions(self, url):
+    def get_slots(self, url):
         return map(self.hash, zip([url] * len(self.seeds), self.seeds))
 
 
