@@ -7,4 +7,6 @@
 
 ## Tutorial
 
-[https://ne7ermore.github.io/](https://ne7ermore.github.io/)
+[Chapter One](https://ne7ermore.github.io/post/algorithms.1/)
+[Chapter Two](https://ne7ermore.github.io/post/algorithms.2/)
+[Chapter Three](https://ne7ermore.github.io/post/algorithms.3/)
