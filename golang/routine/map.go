@@ -10,6 +10,18 @@ func check_map() {
 			"a2": "3",
 			"d2": "4",
 		},
+		"b2": {
+			"a2": "3",
+			"d2": "4",
+		},
+		"b3": {
+			"a2": "3",
+			"d2": "4",
+		},
+		"b4": {
+			"a2": "3",
+			"d2": "4",
+		},
 		"c1": {
 			"e2": "5",
 			"f2": "6",
@@ -19,7 +31,7 @@ func check_map() {
 }
 
 func ckeck(m map[string]map[string]string, p string) bool {
-	c := make(chan bool)
+	c := make(chan bool, 12)
 
 	for _, subm := range m {
 		go func(subm map[string]string, p string) {
@@ -30,14 +42,16 @@ func ckeck(m map[string]map[string]string, p string) bool {
 					c <- false
 				}
 			}
-			close(c)
 		}(subm, p)
 	}
+
+	close(c)
 
 	for i := range c {
 		if i == true {
 			return true
 		}
 	}
+
 	return false
 }
