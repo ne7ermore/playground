@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"time"
 )
 
 type field struct {
@@ -13,12 +12,42 @@ func (p *field) print() {
 	fmt.Println(p.name)
 }
 
-func main() {
-	data := []*field{{"1"}, {"2"}, {"3"}}
-
-	for _, v := range data {
-		go v.print()
+func test(p []int) {
+	p[0] = 100
+	println(&p)
+	println(&p[0])
+	println()
+	for _, n := range p {
+		print(n)
 	}
+	println()
+}
 
-	time.Sleep(3 * time.Second)
+func main() {
+	p := []int{1, 2, 3, 4, 5}
+	// p2 := []int{10, 20, 30, 4, 5, 2}
+	for _, n := range p {
+		print(n)
+	}
+	println()
+	println(&p)
+	println(&p[0])
+	println()
+	test(p)
+	// copy(p2, p)
+	for _, n := range p {
+		print(n)
+	}
+	println()
+	println(&p)
+
+	i := 1
+	println(&i)
+	i = 2
+	println(&i)
+
+	j := []int{1, 2, 3}
+	println(&j)
+	j[0] = 30
+	println(&j)
 }
