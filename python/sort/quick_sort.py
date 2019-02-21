@@ -1,25 +1,12 @@
 def quick_sort(arr):
-    def partition(arr, left, right):
-        store_index = left
-        for i in range(left, right):
-            if arr[i] < arr[right]:
-                arr[i], arr[store_index] = arr[store_index], arr[i]
-                store_index += 1
+    if len(arr) < 2:
+        return arr
 
-        arr[right], arr[store_index] = arr[store_index], arr[right]
+    pos = arr[0]
+    less = [n for n in arr[1:] if n <= pos]
+    greater = [n for n in arr[1:] if n > pos]
 
-        return store_index
-
-    def quick_sort_recur(arr, left, right):
-        if left < right:
-            store_index = partition(arr, left, right)
-
-            quick_sort_recur(arr, left, store_index-1)
-            quick_sort_recur(arr, store_index+1, right)
-
-    quick_sort_recur(arr, 0, len(arr)-1)
-
-    return arr
+    return quick_sort(less) + [pos] + quick_sort(greater)
 
 
 if __name__ == "__main__":
