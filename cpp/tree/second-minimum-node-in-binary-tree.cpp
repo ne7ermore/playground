@@ -53,19 +53,16 @@ class Solution
     {
         if (node != 0)
         {
-            if (node->val != res[0])
+            if (node->val != res[0] && node->val < res[1])
             {
-                if (node->val < res[1])
+                if (node->val < res[0])
                 {
-                    if (node->val < res[0])
-                    {
-                        res[1] = res[0];
-                        res[0] = node->val;
-                    }
-                    else
-                    {
-                        res[1] = node->val;
-                    }
+                    res[1] = res[0];
+                    res[0] = node->val;
+                }
+                else
+                {
+                    res[1] = node->val;
                 }
             }
             dfs(node->left, res);
