@@ -18,3 +18,4 @@
 * [sort](https://ne7ermore.github.io/post/algorithms.9/) <br>
 * [bts tree](https://ne7ermore.github.io/post/algorithms.10/) <br>
 * [avl tree](https://ne7ermore.github.io/post/algorithms.11/) <br>
+* [N-Queens](https://ne7ermore.github.io/post/algorithms.12/) <br>
