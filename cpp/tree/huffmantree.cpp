@@ -75,12 +75,12 @@ void CreateTree(vector<int> cns) {
         }
         tree[a].point[0] = size-1;
         tree[a].codelen = i;
-        for (b = 0; b < i; b++) {
+        for (b = 0; b < i; b++) { 
             tree[a].code[i-b-1] = code[b];
             tree[a].point[i-b] = point[b]-size;
         }
+        cout << " " << endl;
     }
     free(parents);
     free(binary);
 }
-
