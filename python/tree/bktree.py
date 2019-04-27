@@ -10,6 +10,7 @@ class BkTree(object):
         node = self.root
         if node is None:
             node = (item, {})
+            return
 
         while True:
             p, children = node
