@@ -4,6 +4,7 @@
 #include <vector>
 #include <cstring>
 #include <queue>
+#include <algorithm>
 
 namespace BkTree {
     struct node {
@@ -15,13 +16,14 @@ namespace BkTree {
 
     class tree {
         public:
+            tree() : root() {};
             int edit_distance(std::string, std::string);
             node* get_root(); 
             void add(std::string);
-            vector<pair<std::string, int>> search(std::string, int);
+            std::vector<std::pair<int, std::string>> search(std::string, int);
         private:
             struct node *root;
-    }
+    };
 
     int tree::edit_distance(std::string str1, std::string str2) {
         int n = str1.size(), m = str2.size();
@@ -36,8 +38,8 @@ namespace BkTree {
                     dp[i][j] = dp[i - 1][j - 1];
                 else
                 {
-                    int tmp = min(dp[i - 1][j], dp[i - 1][j - 1]);
-                    dp[i][j] = min(tmp, dp[i][j - 1]) + 1;
+                    int tmp = std::min(dp[i - 1][j], dp[i - 1][j - 1]);
+                    dp[i][j] = std::min(tmp, dp[i][j - 1]) + 1;
                 }
             }
         }
@@ -51,23 +53,23 @@ namespace BkTree {
     void tree::add(std::string str) {
         node *n = root;
         if (n->item.size() == 0) {
-            node->item = str;
+            n->item = str;
             return;
         }
         while (1) {
-            int d = edit_distance(node->item, str);
-            auto search = node->children.find(d);
-            if (search != node->children.end()) {
+            int d = edit_distance(n->item, str);
+            auto search = n->children.second.find(d);
+            if (search != n->children.second.end()) {
                 n = search->second;
             } else {
-                node->children[d] = new node(str);
+                n->children.second[d] = new node(str);
                 return;
             }
         }
     }
 
-    vector<pair<std::string, int>> search(std::string item, int n) {
-        vector<pair<std::string, int>> res;
+    std::vector<std::pair<int, std::string>> tree::search(std::string item, int value) {
+        std::vector<std::pair<int, std::string>> res;
         if (root->item.size() == 0) {
             return res;
         }
@@ -79,23 +81,18 @@ namespace BkTree {
             q.pop();
 
             int d = edit_distance(n->item, item);
-            if (d <= n) res.push(pair<std::string, int>(n->item, d));
-            for (auto c: n->children) if (c->first >= d-n and c->first <= d+n) q.push(n->second);
-            sort
+            if (d <= value) res.push_back(make_pair(d, n->item));
+            for (auto c: n->children.second) if (c.first >= d-value and c.first <= d+value) q.push(c.second);
         }
+
+        sort(res.begin(), res.end());
+        return res;        
     }    
-
-
-    template<typename T>;
-
-    bool compare(const T &t1, const T &t2) {
-        return t1.second < t2.second;
-    }
 }
 
 int main() {
     using namespace BkTree;
-    BkTree::node n("asd");
-    std::cout << n.item.size();
+    BkTree::tree t;
+    t.add("asdasd");
     return 0;
 }
