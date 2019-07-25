@@ -2,9 +2,9 @@
 
 // declaration
 const int MAX_LEVEL = (1<<4);
-const float SKIPLIST_P = 0.25
+const float SKIPLIST_P = 0.25;
 
-int randomlevel():
+int randomlevel();
 
 template<typename K, typename V>
 struct Node {
@@ -26,7 +26,7 @@ struct Node {
 
         int getLevel() const;
         void setLevel(const int&);        
-}
+};
 
 template<typename K, typename V>
 class SkipList {
@@ -47,7 +47,7 @@ class SkipList {
         void initList(const K&);
         void newNode(Node<K,V>*&, const int&);
         void newNode(Node<K,V>*&, const int&, const K&, const V&);
-}
+};
 // declaration end
 
 int randomlevel() {
@@ -60,17 +60,17 @@ int randomlevel() {
 
 template<typename K, typename V>
 K Node<K,V>::getKey() const {
-    return k;
+    return key;
 }
 
 template<typename K, typename V>
-void Node<K,V>::setKey(const K& k) const {
+void Node<K,V>::setKey(const K& k) {
     key = k;
 }
 
 template<typename K, typename V>
 V Node<K,V>::getValue() const {
-    return v;
+    return value;
 }
 
 template<typename K, typename V>
@@ -79,14 +79,14 @@ int Node<K,V>::getLevel() const {
 }
 
 template<typename K, typename V>
-void Node<K,V>::setLevel(const int& l) const {
+void Node<K,V>::setLevel(const int& l) {
     level = l;
 }
 
 template<typename K, typename V>
 void SkipList<K,V>::initList(const K& k) {
     newNode(tail, 0);
-    tail.setKey(k);
+    tail->setKey(k);
 
     newNode(header, MAX_LEVEL);
     for (int i = 0; i < MAX_LEVEL; i++) header->forward[i] = tail;
@@ -108,11 +108,11 @@ void SkipList<K,V>::newNode(Node<K,V> *&node, const int &level, const K& k, cons
 }
 
 template<typename K, typename V>
-V SkipList<K,V>::search(const K% key) {
+V SkipList<K,V>::search(const K& k) {
     Node<K,V> *node = header;
-    for (int i = maxLevel; i >= 0; --i) while (node->forward[i]->getKey() < key) node = node->forward[i];
+    for (int i = maxLevel; i >= 0; --i) while (node->forward[i]->getKey() < k) node = node->forward[i];
     node = node->forward[0];
-    if (node->getKey() == key) return  node->getValue();
+    if (node->getKey() == k) return  node->getValue();
     else return NULL;
 }
 
@@ -122,8 +122,8 @@ bool SkipList<K,V>::insert(const K& k, const V& v) {
     Node<K,V> *update[MAX_LEVEL];
 
     for (int i = maxLevel; i >= 0; --i) {
-        while (node->forward[i]->getKey() < key) node = node->forward[i];
-        update[i] =x;
+        while (node->forward[i]->getKey() < k) node = node->forward[i];
+        update[i] =node;
     }
     node = node->forward[0];    
     if (node->getKey() == k) return false;
@@ -131,7 +131,7 @@ bool SkipList<K,V>::insert(const K& k, const V& v) {
     int level = randomlevel();
 
     if (level > maxLevel) {
-        level = ++MAX_LEVEL;
+        level = ++maxLevel;
         update[level] = header;
     }
 
@@ -154,8 +154,8 @@ bool SkipList<K,V>::del(const K& k) {
     Node<K,V> *update[MAX_LEVEL];
 
     for (int i = maxLevel; i >= 0; --i) {
-        while (node->forward[i]->getKey() < key) node = node->forward[i];
-        update[i] =x;
+        while (node->forward[i]->getKey() < k) node = node->forward[i];
+        update[i] =node;
     }
     node = node->forward[0];    
     if (node->getKey() != k) return false;
@@ -174,6 +174,6 @@ bool SkipList<K,V>::del(const K& k) {
 }
 
 template<typename K, typename V>
-bool SkipList<K,V>::size() const {
+int SkipList<K,V>::size() const {
     return nodeCount;
 }
