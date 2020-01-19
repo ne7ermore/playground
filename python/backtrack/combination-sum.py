@@ -29,8 +29,6 @@ A solution set is:
 
 class Solution:
     def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
-        res = []
-
         def backtrack(vec, candidates):
             vec_sum = sum(vec)
             if vec_sum == target:
@@ -38,9 +36,11 @@ class Solution:
 
             elif vec_sum < target:
                 for index, candi in enumerate(candidates):
-                    cvec = vec.copy()
-                    cvec.append(candi)
-                    backtrack(cvec, candidates[index:])
+                    if vec_sum + candi <= target:
+                        cvec = vec.copy()
+                        cvec.append(candi)
+                        backtrack(cvec, candidates[index:])
 
+        res = []
         backtrack([], candidates)
         return res
