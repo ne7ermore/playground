@@ -21,25 +21,26 @@ class AcAutomation(object):
         node.word = word
 
     def build_fail(self):
-        queue = [self.root]
+        queue = []
+        for node in self.root.children.values():
+            node.fail = self.root
+            queue.append(node)
+
         while queue:
             node = queue.pop(0)
-            p = None
 
             for char, child_node in node.children.items():
-                if node == self.root:
-                    child_node.fail = self.root
-
-                else:
-                    p = node.fail
-                    while p is not None:
-                        if char in p.children:
-                            child_node.fail = p.fail
-                            break
-                        p = p.fail
-
+                p = node.fail
+                while True:
                     if p is None:
                         child_node.fail = self.root
+                        break
+
+                    if char in p.children:
+                        child_node.fail = p.children[char]
+                        break
+
+                    p = p.fail
 
                 queue.append(child_node)
 
@@ -51,21 +52,19 @@ class AcAutomation(object):
 
             if char in node.children:
                 node = node.children[char]
-                if node.word is not None:
+                if node.word:
                     ret.append((node.word, idx-len(node.word)+1))
 
-                if node.fail and node.fail.word is not None:
+                if node.fail and node.fail.word:
                     ret.append((node.fail.word, idx-len(node.fail.word)+1))
 
                 idx += 1
             else:
-                p = node.fail
-                if p is not None and p != self.root:
-                    p = p.fail
-                    break
+                node = node.fail
 
-                node = self.root
-                idx += 1
+                if node is None:
+                    node = self.root
+                    idx += 1
 
         return ret
 
@@ -73,10 +72,12 @@ class AcAutomation(object):
 if __name__ == "__main__":
 
     ac = AcAutomation()
-    ac.add('he')
-    ac.add('she')
+    ac.add('abcdef')
+    ac.add('abhab')
+    ac.add('bcd')
+    ac.add('cde')
+    ac.add('cdfkcdf')
 
     ac.build_fail()
-    print(ac.root.children['s'].children['h'].children['e'].fail)
-    print(ac.root.children['h'].children['e'])
-    print(ac.search('she'))
+
+    print(ac.search('bcabcdebcedfabcdefababkabhabk'))
